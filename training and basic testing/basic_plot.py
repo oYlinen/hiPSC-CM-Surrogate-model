@@ -11,7 +11,7 @@ print(device, flush=True)
 mean_var_path = "mean_and_var.csv"
 
 
-emulator = param_to_feature4_20() #Load the pretrained emulator on the CPU
+emulator = param_to_feature4_20()
 emulator.to(device)
 emulator.load_state_dict(torch.load("1000_1e4_10017_1302.pth", map_location=device))
 
