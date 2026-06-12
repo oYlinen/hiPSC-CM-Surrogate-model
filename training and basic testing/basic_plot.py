@@ -15,9 +15,36 @@ emulator = param_to_feature4_20()
 emulator.to(device)
 emulator.load_state_dict(torch.load("1000_1e4_10017_1302.pth", map_location=device))
 
+gNa_multiplier = 1 #1
+g_f_multiplier = 1 #2
+g_CaL_multiplier = 1 #3
+g_to_multiplier = 1 #4
+g_Ks_multiplier = 1 #5
+g_Kr_multiplier = 1 #6
+g_K1_multiplier = 1 #7
+kNaCa_multiplier = 1 #8
+PNaK_multiplier = 1 #9
+g_PCa_multiplier = 1 #10
+GNaLmax_multiplier = 1 #11
+RyRtauadapt_multiplier = 1 #12
+RyRtauact_multiplier = 1 #13
+RyRtauinact_multiplier = 1 #14
+g_irel_max_multiplier = 1 #15
+tau_m_multiplier = 1 #16
+tau_h_j_multiplier = 1 #17
+tau_d_multiplier = 1 #18
+tau_f1_2_multiplier = 1 #19
+RyRchalf_multiplier = 1 #20
+F1_multiplier = 1 #21
+F2_multiplier = 1 #22
 
 
-params = torch.ones((1,22))
+params = [[gNa_multiplier, g_f_multiplier, g_CaL_multiplier, g_to_multiplier, g_Ks_multiplier, g_Kr_multiplier, g_K1_multiplier,
+          kNaCa_multiplier, PNaK_multiplier, g_PCa_multiplier, GNaLmax_multiplier, RyRtauadapt_multiplier, RyRtauact_multiplier,
+          RyRtauinact_multiplier, g_irel_max_multiplier, tau_m_multiplier, tau_h_j_multiplier, tau_d_multiplier, tau_f1_2_multiplier,
+          RyRchalf_multiplier, F1_multiplier, F2_multiplier]]
+
+params = torch.tensor(params)
 print(params.shape)
 
 
