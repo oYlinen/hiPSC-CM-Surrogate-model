@@ -61,7 +61,7 @@ time = np.linspace(0, 1500, 2000)
 
 fig, axs = plt.subplots(2, 3)
 
-axs[0, 0].plot(time, AP_emu, linewidth=3)
+axs[0, 0].plot(time, 1000*AP_emu, linewidth=3)
 axs[0, 0].set_title("AP", fontsize=20)
 axs[0, 0].set_xlabel("Time (s)", fontsize=15)
 axs[0, 0].set_ylabel("mV", fontsize=15)
@@ -71,7 +71,7 @@ axs[1, 0].set_title("Force (AT)", fontsize=20)
 axs[1, 0].set_ylabel("mN / mm2", fontsize=15)
 axs[1, 0].set_xlabel("Time (s)", fontsize=15)
 
-axs[0, 1].plot(time, CaT_emu, linewidth=3)
+axs[0, 1].plot(time, 1000*CaT_emu, linewidth=3)
 axs[0, 1].set_title("CaT", fontsize=20)
 axs[0, 1].set_ylabel("uMol", fontsize=15)
 axs[0, 1].set_xlabel("Time (s)", fontsize=15)
