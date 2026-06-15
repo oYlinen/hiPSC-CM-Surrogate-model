@@ -2,7 +2,8 @@
 The presented surrogate model in my MSc thesis
 
 For easy plotting and basic hand testing of the model:
-"training and basic testing" -> basic_plot.py
+"training and basic testing" -> basic_plot.py or interactive_plot.py
+
 
 
 
