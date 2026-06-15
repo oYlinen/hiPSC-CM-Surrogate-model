@@ -29,39 +29,39 @@ print(params0.shape)
 
 output_emu = emulator(params0)
 output_emu_original_units = emulator.get_original_inputs(output_emu, mean_var_path)[0]
-AP_emu = output_emu_original_units[0,:]
-CaT_emu = output_emu_original_units[1,:]
-AT_emu = output_emu_original_units[2,:]
-ICaL_emu = output_emu_original_units[3,:]
-IKr_emu = output_emu_original_units[4,:]
+AP_emu0 = 1000*output_emu_original_units[0,:]
+CaT_emu0 = 1000*output_emu_original_units[1,:]
+AT_emu0 = output_emu_original_units[2,:]
+ICaL_emu0 = output_emu_original_units[3,:]
+IKr_emu0 = output_emu_original_units[4,:]
 time = np.linspace(0, 1500, 2000)
 
 
 
 fig, axs = plt.subplots(2, 3, figsize=(10, 20))
 
-line0, = axs[0, 0].plot(time, AP_emu, linewidth=3)
+line0, = axs[0, 0].plot(time, AP_emu0, linewidth=3)
 axs[0, 0].set_title("AP", fontsize=20)
 axs[0, 0].set_xlabel("Time (ms)", fontsize=15)
 axs[0, 0].set_ylabel("mV", fontsize=15)
 
-line1, = axs[1, 0].plot(time, AT_emu, linewidth=3)
+line1, = axs[1, 0].plot(time, AT_emu0, linewidth=3)
 axs[1, 0].set_title("Force (AT)", fontsize=20)
 axs[1, 0].set_ylabel("mN / mm2", fontsize=15)
 axs[1, 0].set_xlabel("Time (ms)", fontsize=15)
 
-line2, = axs[0, 1].plot(time, CaT_emu, linewidth=3)
+line2, = axs[0, 1].plot(time, CaT_emu0, linewidth=3)
 axs[0, 1].set_title("CaT", fontsize=20)
 axs[0, 1].set_ylabel("uMol", fontsize=15)
 axs[0, 1].set_xlabel("Time (ms)", fontsize=15)
 
-line3, = axs[1, 1].plot(time, ICaL_emu, linewidth=3)
+line3, = axs[1, 1].plot(time, ICaL_emu0, linewidth=3)
 axs[1, 1].set_title("ICaL", fontsize=20)
 axs[1, 1].set_ylabel("pA/pF", fontsize=15)
 axs[1, 1].set_xlabel("Time (ms)", fontsize=15)
 
 
-line4, = axs[0, 2].plot(time, IKr_emu, linewidth=3)
+line4, = axs[0, 2].plot(time, IKr_emu0, linewidth=3)
 axs[0, 2].set_title("IKr", fontsize=20)
 axs[0, 2].set_ylabel("pA/pF", fontsize=15)
 axs[0, 2].set_xlabel("Time (ms)", fontsize=15)
@@ -92,8 +92,8 @@ def sliders_on_changed(val):
 
     output_emu = emulator(params)
     output_emu_original_units = emulator.get_original_inputs(output_emu, mean_var_path)[0]
-    AP_emu = output_emu_original_units[0, :]
-    CaT_emu = output_emu_original_units[1, :]
+    AP_emu = 1000*output_emu_original_units[0, :]
+    CaT_emu = 1000*output_emu_original_units[1, :]
     AT_emu = output_emu_original_units[2, :]
     ICaL_emu = output_emu_original_units[3, :]
     IKr_emu = output_emu_original_units[4, :]
@@ -103,6 +103,12 @@ def sliders_on_changed(val):
     line2.set_ydata(CaT_emu)
     line3.set_ydata(ICaL_emu)
     line4.set_ydata(IKr_emu)
+
+    axs[0, 0].set_ylim(min(np.min(AP_emu0), np.min(AP_emu))*1.1, max(np.max(AP_emu0), np.max(AP_emu))*1.1)
+    axs[1, 0].set_ylim(min(np.min(AT_emu0), np.min(AT_emu), 0), max(np.max(AT_emu0), np.max(AT_emu))*1.1)
+    axs[0, 1].set_ylim(min(np.min(CaT_emu0), np.min(CaT_emu), 0), max(np.max(CaT_emu0), np.max(CaT_emu))*1.1)
+    axs[1, 1].set_ylim(min(np.min(ICaL_emu), np.min(ICaL_emu))*1.1, max(np.max(ICaL_emu), np.max(ICaL_emu))+0.05)
+    axs[0, 2].set_ylim(min(np.min(IKr_emu), np.min(IKr_emu), 0), max(np.max(IKr_emu), np.max(IKr_emu))*1.1)
 
 
 
@@ -135,8 +141,8 @@ def random_button_on_clicked(mouse_event):
 
     output_emu = emulator(params)
     output_emu_original_units = emulator.get_original_inputs(output_emu, mean_var_path)[0]
-    AP_emu = output_emu_original_units[0, :]
-    CaT_emu = output_emu_original_units[1, :]
+    AP_emu = 1000*output_emu_original_units[0, :]
+    CaT_emu = 1000*output_emu_original_units[1, :]
     AT_emu = output_emu_original_units[2, :]
     ICaL_emu = output_emu_original_units[3, :]
     IKr_emu = output_emu_original_units[4, :]
@@ -146,6 +152,14 @@ def random_button_on_clicked(mouse_event):
     line2.set_ydata(CaT_emu)
     line3.set_ydata(ICaL_emu)
     line4.set_ydata(IKr_emu)
+
+    axs[0, 0].set_ylim(min(np.min(AP_emu0), np.min(AP_emu))*1.1, max(np.max(AP_emu0), np.max(AP_emu))*1.1)
+    axs[1, 0].set_ylim(min(np.min(AT_emu0), np.min(AT_emu), 0), max(np.max(AT_emu0), np.max(AT_emu))*1.1)
+    axs[0, 1].set_ylim(min(np.min(CaT_emu0), np.min(CaT_emu), 0), max(np.max(CaT_emu0), np.max(CaT_emu))*1.1)
+    axs[1, 1].set_ylim(min(np.min(ICaL_emu), np.min(ICaL_emu))*1.1, max(np.max(ICaL_emu), np.max(ICaL_emu))+0.05)
+    axs[0, 2].set_ylim(min(np.min(IKr_emu), np.min(IKr_emu), 0), max(np.max(IKr_emu), np.max(IKr_emu))*1.1)
+
+
 
     fig.canvas.draw_idle()
 
