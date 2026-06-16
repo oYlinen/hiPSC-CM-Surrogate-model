@@ -1,16 +1,11 @@
 import pathlib
 
-import sklearn.preprocessing
 import torch
 import numpy as np
-import os
 import re
-import random
 import scipy
-import csv
 import pandas
 
-import matplotlib.pyplot as plt
 
 def get_params_from_text(text) -> np.ndarray: # copied from POMtool tests
     # Matches to "number.number"
@@ -43,7 +38,6 @@ class Dataset3_all():
         self.get_params_dict()
         self.filter_mat_keys()
         self.data_size = len(self.mat_files.keys())
-
 
 
 
@@ -102,31 +96,12 @@ class Dataset3_all():
             mean_input = self.mean_array[i]
             variance_input = self.variance_array[i]
 
-           # mean_input = np.mean(input[idx,:])
-          #  variance_input = np.var(input[idx, :])
-
-
             normalized = ((input[idx,:] - mean_input)/ np.sqrt(variance_input))
-           # normalized = ((input[idx, :] - mean_input) / (
-            #            variance_input - mean_input))
-
-
-            diff = np.diff(normalized,n=1)*100
-            diff_x0 = np.append(diff, [normalized[0]])
-       #     dct = scipy.fft.dct(normalized, type=2, norm='ortho')
-
-           # arr[idx, :] = np.append(diff, [normalized[0]])
 
             arr[idx, :] = normalized
 
         return torch.tensor(arr).float()
 
-
-    def get_biomarkers(self):
-        file = self.dir_path + "/biomarkers.csv"
-        biomarkers = pandas.read_csv(file)
-        biomarkers = biomarkers.to_dict()
-        self.biomarkers = biomarkers.pop("directory", None)
 
 
     def get_params_dict(self):
@@ -159,13 +134,10 @@ class Dataset3_all():
             idx = 0
             for signal in cell_mat_files.T:
                 if idx == 0:
-                    part = signal[ind_10s_start:ind_10s_end] + 10
                     part_ = signal[ind_10s_start:ind_10s_end]
                     part_start = signal[ind_10s_start:ind_10s_high]
                     maximium_signal = np.max(signal)
                     maximium_start = np.max(part_start)
-
-                    diff_sum = np.sum(np.diff(part_))
 
                     if part_[0] > -0.052 or maximium_signal < 0 or maximium_signal*0.9 >= maximium_start:
                        # print(f"pop: {key}")
@@ -186,7 +158,6 @@ class Dataset3_all():
 
         keys = list(self.mat_files.keys())
         dir = keys[idx]
-     #   dir = random.choice(keys)
         file = dir + "/res.mat"
 
         params = self.params_dict[dir] # 2 was the maximium

@@ -1,9 +1,8 @@
 import numpy as np
-import scipy.fft
 import torch
 import torch.nn as nn
 import pandas
-import scipy
+
 
 
 class param_to_feature4_20(nn.Module):
@@ -38,7 +37,6 @@ class param_to_feature4_20(nn.Module):
             nn.Linear(in_features=500, out_features=250),
             nn.Tanh(),
         )
-        #self.rnn = nn.LSTM(input_size=20, hidden_size=50, num_layers=1, batch_first=True)
 
 
         self.dec1 = nn.Sequential(
@@ -96,21 +94,13 @@ class param_to_feature4_20(nn.Module):
         layer6 = self.layer6(layer5)
         layer7 = self.layer7(layer6)
 
-        dim_addition = layer7[:, None, :] # exand the by 1 dimension to fit to the decoder
+        dim_addition = layer7[:, None, :]
         decode1 = self.dec1(dim_addition)
 
         decode2 = self.dec2(decode1)
         decode3 = self.dec3(decode2)
 
         output = self.output(decode3)
-
-  #      x0 = self.linear_x0(x)
-  #      x0 = x0[:,:, None]
-  #      output = torch.cat((output, x0), dim=2)
-
-      #  conf = self.confidence(layer3)
-      #  conf = conf[:,:, None]
-      #  output = torch.cat((output, conf), dim=2)
 
 
         return output
@@ -120,15 +110,7 @@ class param_to_feature4_20(nn.Module):
             self.mean_array = arr[0, [0, 1, 2, 3, 4]]
             self.variance_array = arr[1, [0, 1, 2, 3, 4]]
 
-      #  output = np.dstack((output.cpu().detach().numpy(), np.zeros((output.shape[0], output.shape[1], 1500))))
-
-        #output = scipy.fft.idct(output.cpu().detach().numpy(), norm='ortho')
         output = output.cpu().detach().numpy()
-        output0_0 = output[:, :, -1]
-        output0_0 = output0_0[..., np.newaxis]
-
-       # output0 = np.dstack((output0_0, output[:, :, :-1].cpu().detach().numpy()/100)).cumsum(axis=2)
-       # output0_unnormalized = 2*output0 * np.sqrt(self.variance_array[...,np.newaxis]) + self.mean_array[...,np.newaxis]  - np.sqrt(self.variance_array[...,np.newaxis])
         output0_unnormalized = output * np.sqrt(self.variance_array[...,np.newaxis]) + self.mean_array[...,np.newaxis]
 
         return output0_unnormalized

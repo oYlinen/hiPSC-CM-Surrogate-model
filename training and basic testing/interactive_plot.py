@@ -4,7 +4,7 @@ from networks3 import param_to_feature4_20
 import torch
 import os
 
-from matplotlib.widgets import Slider, Button, RadioButtons
+from matplotlib.widgets import Slider, Button
 
 
 os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
@@ -22,9 +22,7 @@ emulator.load_state_dict(torch.load("1000_1e4_10017_1302.pth", map_location=devi
 input_params = ["gNa", "g_f", "g_CaL", "g_to", "g_Ks", "g_Kr", "g_K1", "kNaCa", "PNaK", "g_PCa", "GNaLmax", "RyRtauadapt",
                 "RyRtauact", "RyRtauinact", "g_irel_max", "tau_m", "tau_h_j", "tau_d", "tau_f1_2", "RyRchalf", "F1", "F2"]
 
-print(len(input_params))
 params0 = torch.ones((1, len(input_params)))
-print(params0.shape)
 
 
 output_emu = emulator(params0)
