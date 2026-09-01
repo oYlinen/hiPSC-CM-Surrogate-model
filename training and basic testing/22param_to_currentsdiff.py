@@ -5,9 +5,8 @@ import matplotlib.pyplot as plt
 
 from torch.utils.data import random_split, DataLoader
 from datasets3 import Dataset3_all
-from networks3 import param_to_feature4_20
+from networks3 import surrogate_model_cnn
 skip_training = False
-import pandas
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(device, flush=True)
