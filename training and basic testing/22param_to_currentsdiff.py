@@ -51,8 +51,7 @@ def loss_and_optimizer(model):
     return loss, optimizer
 
 
-model_20_param = param_to_feature4_20()
-model = model_20_param
+model = surrogate_model_cnn()
 criterion, optimizer = loss_and_optimizer(model)
 
 

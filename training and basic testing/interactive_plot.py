@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from networks3 import param_to_feature4_20
+from networks3 import surrogate_model_cnn
 import torch
 import os
 
@@ -15,7 +15,7 @@ print(device, flush=True)
 mean_var_path = "mean_and_var.csv"
 
 
-surrogate = param_to_feature4_20()
+surrogate = surrogate_model_cnn()
 surrogate.to(device)
 surrogate.load_state_dict(torch.load("1000_1e4_10017_1302.pth", map_location=device))
 

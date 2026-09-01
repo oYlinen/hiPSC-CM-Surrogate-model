@@ -11,7 +11,7 @@
 import time
 import torch
 from thop import profile
-from networks3 import param_to_feature4_20
+from networks3 import surrogate_model_cnn
 
 
 def compute_gflops_and_model_size(model):
@@ -49,7 +49,7 @@ def compute_fps(model, shape, epoch=100, device=None):
 
 
 def test_model_flops():
-    model = param_to_feature4_20()
+    model = surrogate_model_cnn()
     params_M, model_size, gflops = compute_gflops_and_model_size(model)
 
     print('Number of parameters: {:.2f} M '.format(params_M))
@@ -57,7 +57,7 @@ def test_model_flops():
     print('Computational complexity: {:.2f} GFlops'.format(gflops))
 
 def test_fps():
-    model = param_to_feature4_20()
+    model = surrogate_model_cnn()
 
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     fps = compute_fps(model, (1, 22), device=device)

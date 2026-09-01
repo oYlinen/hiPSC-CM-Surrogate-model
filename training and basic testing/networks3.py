@@ -5,7 +5,7 @@ import pandas
 
 
 
-class param_to_feature4_20(nn.Module):
+class surrogate_model_cnn(nn.Module):
     def __init__(self):
         super().__init__()
 
