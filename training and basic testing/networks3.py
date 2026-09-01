@@ -104,7 +104,7 @@ class param_to_feature4_20(nn.Module):
 
 
         return output
-    def get_original_inputs(self, output, path): #TODO think about where this belongs
+    def get_original_inputs(self, output, path):
         if not self.mean_array.any():
             arr = pandas.read_csv(path).to_numpy()
             self.mean_array = arr[0, [0, 1, 2, 3, 4]]

@@ -127,19 +127,6 @@ def plotting_function(time, arr, params, orig_arr):
 
 
 
-def calc_loss(pred, input, criterion):
-    temp = []
-    for item, input_item in zip(pred, input):
-        temp2 = []
-        for current, current2 in zip(item, input_item):
-            conf = criterion(current[:-1], current2)
-            temp2.append(conf)
-        temp.append(temp2)
-
-    temp = torch.tensor(temp).to(device)
-    temp = temp[:, :, None]
-    input = torch.cat((input, temp), dim=2).to(device)
-    return input
 
 def test(model, criterion, test_loader, plot=False):
 
@@ -147,14 +134,12 @@ def test(model, criterion, test_loader, plot=False):
     test_loss = []
     maximium = -np.inf
     with torch.no_grad():
-       # for input, params, _ in tqdm(test_loader):
        for input, params, _ in test_loader:
             input = input.to(device)  # Move the input to 'device' (CPU or GPU)
 
             params = params.to(device)
             features = model(params)
 
-           # input = calc_loss(features, input, criterion)
             if torch.max(input) > maximium:
 
                 maximium = torch.max(input)
@@ -216,7 +201,7 @@ def train(model, optimizer, criterion, train_loader, test_loader, num_epochs=10)
 
 
 
-num_epochs = 1
+num_epochs = 1000
 skip_training = True
 
 

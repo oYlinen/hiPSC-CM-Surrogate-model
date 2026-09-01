@@ -18,7 +18,7 @@ def get_params_from_text(text) -> np.ndarray: # copied from POMtool tests
 class Dataset3_all():
     def __init__(self, dir_path: str):
         self.dir_path = dir_path
-        self.var_mean_file = "C:/Users/imspr/thesis_2025/Thesis_emulator/05-20-50000_22/mean_and_var.csv"
+        self.var_mean_file = "mean_and_var.csv"
         self.dirs = []
         self.POMtool_output_files = []
         self.nan_files = []
@@ -42,7 +42,7 @@ class Dataset3_all():
 
 
 
-    def get_normalization_scales(self):  # TODO get this from elsewhere
+    def get_normalization_scales(self):
         if self.norm_flag:
             return
         if pathlib.Path(self.var_mean_file).exists():
@@ -88,7 +88,7 @@ class Dataset3_all():
         df.to_csv(file_name, index=False)
 
 
-    def normalize_data(self, input, file): # normalize the conducatnces as well?
+    def normalize_data(self, input):
         arr = np.zeros((input.shape[0], input.shape[1]))
         idxs = [0, 1, 2, 3, 4]
         for idx in range(input.shape[0]):
@@ -150,11 +150,6 @@ class Dataset3_all():
         self.mat_files = new_dict
 
     def __getitem__(self, idx):
-        # TODO save the already used ones? or consider it
-        # TODO clean this code and make it nice
-        # TODO optimization <- use gpu? Use torch interp
-        #TODO check if matlab gives error or the output is garbage?
-        #TODO version control
 
         keys = list(self.mat_files.keys())
         dir = keys[idx]
@@ -169,13 +164,13 @@ class Dataset3_all():
         vals = self.mat_files[dir][0][0][-1]
         time = self.mat_files[dir][0][0][-2]
 
-        ind = 802.4 #TODO clean Dataset so that this feature can be used (cond to AP, random here can not be there :D)
+        ind = 802.4
         ind_10s_start = np.argmin(time < ind)
         ind_10s_end = np.argmin(time < ind+1.5)
 
         time_10s = time[ind_10s_start:ind_10s_end].flatten()
         fs = 1000
-        time_new = np.linspace(np.min(time_10s), np.max(time_10s),num=int(2 * fs))  # resampling to constant frequancy of 1/fs
+        time_new = np.linspace(np.min(time_10s), np.max(time_10s),num=int(2 * fs))  # resampling to constant frequancy
         idx = 0
         idxs = [0,1, 2, 3, 4]
         input_data = []
@@ -187,7 +182,7 @@ class Dataset3_all():
             signal_10s = signal[ind_10s_start:ind_10s_end]
 
 
-            # Resampling, but matching the times since the ODE does not give equal number of points for each AP
+            # Resampling, but matching the times since the ODE does not give equal number of points
             signal_new = np.interp(time_new, time_10s, signal_10s)
             input_data.append(signal_new)
 
